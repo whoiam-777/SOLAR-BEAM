@@ -194,65 +194,100 @@
                     const catalog = [
                         { 
                             id: 'd1', 
-                            name: 'SOLAR BEAM VI86', 
-                            price: '24 990 ₸', 
-                            type: 'Бюджетный', 
-                            desc: 'Компактный квадрокоптер черного цвета. Время полета до 15 мин, зарядка 60 мин. Камера 480p с углом обзора 90°. Поддержка iOS/Android, функция следования за оператором.' 
+                            name: 'SOLAR BEAM VI86 черный', 
+                            price: '22 999 ₸', 
+                            type: 'Хит', 
+                            desc: 'Компактный и надежный. Аккумулятор 1800mAh, время полета до 15 минут. Камера 480p с углом обзора 90°. Функция следования за оператором и трансляция видео по WiFi.',
+                            specs: {
+                                flyTime: '15 мин',
+                                range: 'WiFi FPV',
+                                camera: '480p'
+                            }
                         },
                         { 
                             id: 'd2', 
-                            name: 'SOLAR BEAM M3', 
-                            price: '34 990 ₸', 
+                            name: 'SOLAR BEAM M3 серый', 
+                            price: '16 999 ₸', 
                             type: 'GPS', 
-                            desc: 'Серый дрон с GPS и гироскопом. Фото 4K, видео 720p. Дальность управления 200м, трансляция 100м. Возврат в точку взлета, время полета 15 мин. Вес с аккумулятором 1800мАч.' 
+                            desc: 'Продвинутая модель с GPS и гироскопом. Дальность управления до 200м. Автовозврат в точку взлета, камера 720p и полет до 15 минут. Идеален для новичков.',
+                            specs: {
+                                flyTime: '15 мин',
+                                range: '200 м',
+                                camera: '720p'
+                            }
                         },
                         { 
                             id: 'd3', 
-                            name: 'KBDFA E88pro', 
-                            price: '18 990 ₸', 
-                            type: 'Новичок', 
-                            desc: 'Идеальный старт для пилота. Время полета до 20 минут! Камера 720p, дальность 100м. Легкий (0.28г - заявлено производителем), складной корпус, защита винтов в комплекте.' 
+                            name: 'KBDFA E88pro черный', 
+                            price: '12 999 ₸', 
+                            type: 'Старт', 
+                            desc: 'Легкий и складной дрон для обучения. Впечатляющие 20 минут полета на одном заряде! Камера 720p, дальность 100м, режим Headless и защита винтов в комплекте.',
+                            specs: {
+                                flyTime: '20 мин',
+                                range: '100 м',
+                                camera: '720p'
+                            }
                         },
                         { 
                             id: 'd4', 
-                            name: 'DJI Mini 4 Pro', 
-                            price: '450 000 ₸', 
-                            type: 'Pro', 
-                            desc: 'Самый безопасный мини-дрон. Вес менее 249 г, не требует регистрации. Съемка 4K/60fps HDR и вертикальное видео.' 
+                            name: 'SolarBeam S9 черный', 
+                            price: '42 999 ₸', 
+                            type: 'Pro GPS', 
+                            desc: 'Профессиональное решение. Бесколлекторные моторы и лазерный модуль обхода препятствий. Дальность управления до 3000м! Трансляция видео до 1500м. Вес 320г.',
+                            specs: {
+                                flyTime: '20 мин',
+                                range: '3000 м',
+                                camera: 'HD / Нет SD'
+                            }
                         },
                         { 
                             id: 'd5', 
-                            name: 'DJI Avata 2', 
-                            price: '620 000 ₸', 
-                            type: 'FPV', 
-                            desc: 'Полное погружение в полет с очками Goggles 3. Безопасный, маневренный, с интуитивным управлением Motion Controller.' 
+                            name: 'SOLAR BEAM YK8 черный', 
+                            price: '29 999 ₸', 
+                            type: 'Long Life', 
+                            desc: 'Рекордсмен по времени полета — до 40 минут благодаря мощному аккумулятору 3800mAh! Дальность 500м, камера 480p. Вес 800г для стабильного полета.',
+                            specs: {
+                                flyTime: '40 мин',
+                                range: '500 м',
+                                camera: '480p'
+                            }
                         },
                         { 
                             id: 'd6', 
-                            name: 'Mavic 3 Thermal', 
-                            price: '1 800 000 ₸', 
-                            type: 'Тепловизор', 
-                            desc: 'Компактный промышленный дрон с тепловизором. Идеален для поисково-спасательных работ и инспекций.' 
+                            name: 'Skybox M3Max 4akb синий', 
+                            price: '44 000 ₸', 
+                            type: 'Комплект', 
+                            desc: 'Максимальный комплект: 4 аккумулятора сразу в коробке! Время полета до 40 мин (на одном АКБ). GPS, дальность 500м. Сумка и защита в комплекте.',
+                            specs: {
+                                flyTime: '40 мин',
+                                range: '500 м',
+                                camera: '480p/720p'
+                            }
                         },
                         { 
                             id: 'd7', 
-                            name: 'DJI Agras T50', 
-                            price: 'По запросу', 
-                            type: 'Агро', 
-                            desc: 'Революция в сельском хозяйстве. Распыление, посев и картографирование полей. Высокая производительность.' 
+                            name: 'SOLAR BEAM VI82 черный', 
+                            price: '22 999 ₸', 
+                            type: 'Автопилот', 
+                            desc: 'Умный дрон с автопилотом и функцией возврата домой. Камера 720p, полет до 10 минут. Идеален для автоматических режимов съемки.',
+                            specs: {
+                                flyTime: '10 мин',
+                                range: 'WiFi',
+                                camera: '720p'
+                            }
                         }
                     ];
 
                     catalog.forEach((item, i) => {
                         document.write(`
-                            <div class="product-card group cursor-pointer" onclick="openModal('${item.id}', '${item.name}', '${item.price}', '${item.desc}')" data-aos="fade-up" data-aos-delay="${i * 50}">
+                            <div class="product-card group cursor-pointer" onclick="openModal('${item.id}', '${item.name}', '${item.price}', '${item.desc}', '${item.specs.flyTime}', '${item.specs.range}', '${item.specs.camera}')" data-aos="fade-up" data-aos-delay="${i * 50}">
                                 <div class="frame-placeholder h-64 w-full flex items-center justify-center rounded-t-3xl text-gray-300">
                                     <span class="font-heading text-6xl font-bold opacity-20">${item.id}</span>
                                     <div class="absolute top-4 left-4 bg-white text-solar-dark text-[10px] font-bold px-3 py-1 rounded-full shadow-sm border border-gray-100">${item.type}</div>
                                 </div>
                                 <div class="p-6">
-                                    <h3 class="font-heading text-xl font-bold text-solar-dark mb-2 group-hover:text-solar-orange transition">${item.name}</h3>
-                                    <p class="text-xs text-gray-500 mb-6 line-clamp-2">${item.desc}</p>
+                                    <h3 class="font-heading text-xl font-bold text-solar-dark mb-2 group-hover:text-solar-orange transition h-14 line-clamp-2">${item.name}</h3>
+                                    <p class="text-xs text-gray-500 mb-6 line-clamp-3 h-12">${item.desc}</p>
                                     <div class="flex items-center justify-between pt-4 border-t border-gray-100">
                                         <span class="font-bold text-lg text-solar-dark">${item.price}</span>
                                         <button class="w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center text-solar-dark group-hover:bg-solar-orange group-hover:text-white transition">
@@ -277,10 +312,27 @@
                 <span id="modal-id" class="font-heading text-8xl text-gray-300 font-bold">d1</span>
             </div>
             <div class="w-full md:w-1/2 p-8 md:p-12 overflow-y-auto">
-                <span class="text-solar-orange text-xs font-bold uppercase tracking-widest mb-2 block">Specifications</span>
+                <span class="text-solar-orange text-xs font-bold uppercase tracking-widest mb-2 block">Характеристики</span>
                 <h2 id="modal-title" class="font-heading text-3xl font-bold text-solar-dark mb-2">Название</h2>
                 <p id="modal-price" class="text-2xl font-medium text-gray-600 mb-6 pb-4 border-b border-gray-100">0 ₸</p>
                 <p id="modal-desc" class="text-gray-500 text-sm leading-relaxed mb-8">Описание...</p>
+                <div class="bg-slate-50 p-4 rounded-xl mb-8 border border-gray-100 grid grid-cols-3 gap-2">
+                    <div class="text-center">
+                         <i class="fas fa-clock text-solar-gold mb-1"></i>
+                         <p class="text-[9px] text-gray-400 uppercase">Полет</p>
+                         <p id="spec-fly" class="font-bold text-xs">-</p>
+                    </div>
+                    <div class="text-center border-l border-gray-200">
+                         <i class="fas fa-wifi text-solar-orange mb-1"></i>
+                         <p class="text-[9px] text-gray-400 uppercase">Дальность</p>
+                         <p id="spec-range" class="font-bold text-xs">-</p>
+                    </div>
+                    <div class="text-center border-l border-gray-200">
+                         <i class="fas fa-camera text-blue-500 mb-1"></i>
+                         <p class="text-[9px] text-gray-400 uppercase">Камера</p>
+                         <p id="spec-cam" class="font-bold text-xs">-</p>
+                    </div>
+                </div>
                 <a id="modal-btn" href="#" target="_blank" class="btn-solar w-full py-4 rounded-xl font-bold uppercase tracking-widest text-center shadow-soft flex items-center justify-center gap-2">
                     <i class="fab fa-whatsapp text-lg"></i> Заказать
                 </a>
@@ -348,11 +400,16 @@
         }
 
         // Open Modal Logic
-        function openModal(id, name, price, desc) {
+        function openModal(id, name, price, desc, fly, range, cam) {
             document.getElementById('modal-title').innerText = name;
             document.getElementById('modal-price').innerText = price;
             document.getElementById('modal-desc').innerText = desc;
             document.getElementById('modal-id').innerText = id;
+            
+            // Заполнение спец. полей
+            document.getElementById('spec-fly').innerText = fly;
+            document.getElementById('spec-range').innerText = range;
+            document.getElementById('spec-cam').innerText = cam;
             
             const link = `https://wa.me/77781860510?text=Здравствуйте! Меня интересует ${name} (${price}).`;
             document.getElementById('modal-btn').href = link;
