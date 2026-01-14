@@ -22,14 +22,13 @@
                         solar: {
                             orange: '#FF512F',  /* Градиент старт */
                             gold: '#F09819',    /* Градиент конец */
-                            dark: '#1e293b',    /* Текст (Темно-синий, не черный) */
-                            light: '#f8fafc',   /* Фон (Очень светло-серый) */
-                            gray: '#64748b'     /* Вторичный текст */
+                            dark: '#1e293b',    /* Текст */
+                            light: '#f8fafc',   /* Фон */
+                            gray: '#64748b'     /* Серый текст */
                         }
                     },
                     boxShadow: {
                         'soft': '0 20px 40px -15px rgba(240, 152, 25, 0.15)',
-                        'card': '0 10px 30px -5px rgba(0, 0, 0, 0.05)'
                     }
                 }
             }
@@ -39,85 +38,33 @@
     <style>
         body { background-color: #f8fafc; color: #1e293b; overflow-x: hidden; }
         
-        /* Скроллбар */
         ::-webkit-scrollbar { width: 6px; }
         ::-webkit-scrollbar-track { background: #f8fafc; }
         ::-webkit-scrollbar-thumb { background: linear-gradient(to bottom, #FF512F, #F09819); border-radius: 10px; }
 
-        /* Градиентный текст */
-        .text-gradient {
-            background: linear-gradient(135deg, #FF512F 0%, #F09819 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
+        .text-gradient { background: linear-gradient(135deg, #FF512F 0%, #F09819 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
         
-        /* Градиентная кнопка */
-        .btn-solar {
-            background: linear-gradient(135deg, #FF512F 0%, #F09819 100%);
-            color: white;
-            transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
-        }
-        .btn-solar:hover {
-            box-shadow: 0 15px 30px rgba(240, 152, 25, 0.4);
-            transform: translateY(-2px);
-        }
+        .btn-solar { background: linear-gradient(135deg, #FF512F 0%, #F09819 100%); color: white; transition: all 0.3s ease; }
+        .btn-solar:hover { box-shadow: 0 15px 30px rgba(240, 152, 25, 0.4); transform: translateY(-2px); }
 
-        /* Эффект матового стекла (Светлый) */
-        .glass-white {
-            background: rgba(255, 255, 255, 0.7);
-            backdrop-filter: blur(16px);
-            border: 1px solid rgba(255, 255, 255, 0.5);
-        }
+        .glass-white { background: rgba(255, 255, 255, 0.8); backdrop-filter: blur(16px); border-bottom: 1px solid rgba(255, 255, 255, 0.5); }
 
         /* Видео фон */
-        .video-wrapper {
-            position: absolute; top: 0; left: 0; width: 100%; height: 100%; overflow: hidden; z-index: -1;
-        }
-        .video-bg {
-            width: 100%; height: 100%; object-fit: cover; opacity: 0.8; /* Делаем видео светлее */
-        }
-        /* Белая пелена поверх видео, чтобы текст читался */
-        .video-overlay {
-            position: absolute; inset: 0; background: rgba(255,255,255,0.4); 
-            background: linear-gradient(to bottom, rgba(255,255,255,0.2), #f8fafc);
-        }
+        .video-wrapper { position: absolute; top: 0; left: 0; width: 100%; height: 100%; overflow: hidden; z-index: -1; }
+        .video-bg { width: 100%; height: 100%; object-fit: cover; opacity: 0.9; }
+        .video-overlay { position: absolute; inset: 0; background: linear-gradient(to bottom, rgba(255,255,255,0.4), #f8fafc); }
 
         /* Карточки */
-        .product-card {
-            background: white;
-            border-radius: 24px;
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            border: 1px solid rgba(0,0,0,0.03);
-        }
-        .product-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.1);
-        }
+        .product-card { background: white; border-radius: 24px; transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); border: 1px solid rgba(0,0,0,0.03); }
+        .product-card:hover { transform: translateY(-10px); box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.1); }
         
-        /* Рамка для фото (d1-d10) */
-        .frame-placeholder {
-            background: #f1f5f9;
-            position: relative;
-            overflow: hidden;
-        }
-        .frame-placeholder::after {
-            content: ''; position: absolute; inset: 0;
-            background: linear-gradient(45deg, transparent, rgba(255,255,255,0.4), transparent);
-            transform: translateX(-100%);
-            transition: 0.5s;
-        }
-        .product-card:hover .frame-placeholder::after {
-            transform: translateX(100%);
-            transition: 0.7s;
-        }
+        .frame-placeholder { background: #f1f5f9; position: relative; overflow: hidden; }
+        .frame-placeholder::after { content: ''; position: absolute; inset: 0; background: linear-gradient(45deg, transparent, rgba(255,255,255,0.4), transparent); transform: translateX(-100%); transition: 0.5s; }
+        .product-card:hover .frame-placeholder::after { transform: translateX(100%); transition: 0.7s; }
 
-        /* Мобильное меню */
         #mobile-menu { transition: 0.4s ease; transform: translateX(100%); }
         #mobile-menu.open { transform: translateX(0); }
         
-        /* Модальное окно */
         .modal-bg { opacity: 0; pointer-events: none; transition: 0.3s; }
         .modal-bg.active { opacity: 1; pointer-events: auto; }
         .modal-panel { transform: scale(0.9) translateY(20px); transition: 0.4s cubic-bezier(0.34, 1.56, 0.64, 1); }
@@ -133,8 +80,8 @@
         </div>
     </div>
 
-    <header class="fixed w-full z-50 top-0 transition-all duration-300" id="header">
-        <div class="absolute inset-0 glass-white shadow-sm"></div> <div class="container mx-auto px-6 py-4 relative z-10 flex justify-between items-center">
+    <header class="fixed w-full z-50 top-0 transition-all duration-300 glass-white" id="header">
+        <div class="container mx-auto px-6 py-4 relative z-10 flex justify-between items-center">
             
             <a href="#" class="flex items-center gap-2 group">
                 <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-solar-orange to-solar-gold flex items-center justify-center text-white shadow-lg group-hover:scale-110 transition">
@@ -147,30 +94,16 @@
             </a>
 
             <nav class="hidden lg:flex gap-8 text-sm font-semibold text-solar-dark">
-                <a href="#home" class="hover:text-solar-orange transition relative group">
-                    Главная <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-solar-orange transition-all group-hover:w-full"></span>
-                </a>
-                <a href="#about" class="hover:text-solar-orange transition relative group">
-                    О нас <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-solar-orange transition-all group-hover:w-full"></span>
-                </a>
-                <a href="#catalog" class="hover:text-solar-orange transition relative group">
-                    Каталог <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-solar-orange transition-all group-hover:w-full"></span>
-                </a>
-                <a href="#contacts" class="hover:text-solar-orange transition relative group">
-                    Контакты <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-solar-orange transition-all group-hover:w-full"></span>
-                </a>
+                <a href="#home" class="hover:text-solar-orange transition">Главная</a>
+                <a href="#about" class="hover:text-solar-orange transition">Презентация</a>
+                <a href="#catalog" class="hover:text-solar-orange transition">Каталог</a>
+                <a href="#contacts" class="hover:text-solar-orange transition">Контакты</a>
             </nav>
 
             <div class="flex items-center gap-4">
-                <a href="tel:+77781860510" class="hidden md:block font-heading font-bold text-solar-dark hover:text-solar-orange transition">
-                    +7 778 186 05 10
-                </a>
-                <a href="https://wa.me/77781860510" class="btn-solar px-6 py-2.5 rounded-full font-bold text-sm shadow-soft hidden md:block">
-                    Заказать
-                </a>
-                <button onclick="toggleMenu()" class="lg:hidden text-2xl text-solar-dark">
-                    <i class="fas fa-bars"></i>
-                </button>
+                <a href="tel:+77781860510" class="hidden md:block font-heading font-bold text-solar-dark hover:text-solar-orange transition">+7 778 186 05 10</a>
+                <a href="https://wa.me/77781860510" class="btn-solar px-6 py-2.5 rounded-full font-bold text-sm shadow-soft hidden md:block">WhatsApp</a>
+                <button onclick="toggleMenu()" class="lg:hidden text-2xl text-solar-dark"><i class="fas fa-bars"></i></button>
             </div>
         </div>
     </header>
@@ -178,9 +111,9 @@
     <div id="mobile-menu" class="fixed inset-0 z-[60] bg-white flex flex-col items-center justify-center gap-8">
         <button onclick="toggleMenu()" class="absolute top-6 right-6 text-3xl text-solar-dark"><i class="fas fa-times"></i></button>
         <a href="#home" onclick="toggleMenu()" class="font-heading text-3xl font-bold text-solar-dark">Главная</a>
+        <a href="#about" onclick="toggleMenu()" class="font-heading text-3xl font-bold text-solar-dark">Презентация</a>
         <a href="#catalog" onclick="toggleMenu()" class="font-heading text-3xl font-bold text-solar-dark">Каталог</a>
-        <a href="#about" onclick="toggleMenu()" class="font-heading text-3xl font-bold text-solar-dark">О компании</a>
-        <a href="https://wa.me/77781860510" class="btn-solar px-10 py-4 rounded-full text-lg font-bold shadow-soft mt-4">WhatsApp</a>
+        <a href="https://wa.me/77781860510" class="btn-solar px-10 py-4 rounded-full text-lg font-bold shadow-soft mt-4">Написать нам</a>
     </div>
 
     <section id="home" class="relative h-screen min-h-[700px] flex items-center justify-center pt-20">
@@ -192,9 +125,9 @@
         </div>
 
         <div class="container mx-auto px-6 relative z-10 text-center">
-            <div class="inline-flex items-center gap-2 bg-white px-4 py-2 rounded-full shadow-sm mb-8 border border-gray-100" data-aos="fade-down">
+            <div class="inline-flex items-center gap-2 bg-white/80 backdrop-blur px-4 py-2 rounded-full shadow-sm mb-8 border border-white" data-aos="fade-down">
                 <span class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span>
-                <span class="text-xs font-bold uppercase tracking-widest text-gray-500">Official Dealer</span>
+                <span class="text-xs font-bold uppercase tracking-widest text-gray-600">Official Dealer & Service</span>
             </div>
 
             <h1 class="font-heading font-bold text-5xl md:text-8xl text-solar-dark mb-6 leading-tight" data-aos="zoom-in" data-aos-duration="1000">
@@ -209,8 +142,8 @@
                 <a href="#catalog" class="btn-solar px-10 py-4 rounded-full font-bold text-sm tracking-widest uppercase shadow-soft">
                     Смотреть каталог
                 </a>
-                <a href="#about" class="bg-white text-solar-dark px-10 py-4 rounded-full font-bold text-sm tracking-widest uppercase hover:bg-gray-50 transition border border-gray-200 shadow-sm">
-                    Подробнее о нас
+                <a href="#about" class="bg-white/80 backdrop-blur text-solar-dark px-10 py-4 rounded-full font-bold text-sm tracking-widest uppercase hover:bg-white transition border border-white shadow-sm">
+                    О компании
                 </a>
             </div>
         </div>
@@ -219,15 +152,13 @@
     <section id="about" class="py-24 bg-white relative">
         <div class="container mx-auto px-6">
             <div class="flex flex-col lg:flex-row items-center gap-16">
+                
                 <div class="w-full lg:w-1/2" data-aos="fade-right">
-                    <div class="relative rounded-[3rem] overflow-hidden shadow-2xl aspect-video group cursor-pointer">
-                        <img src="https://images.unsplash.com/photo-1506947411487-a56738267384?q=80&w=1200&auto=format&fit=crop" class="w-full h-full object-cover group-hover:scale-105 transition duration-700">
-                        <div class="absolute inset-0 bg-black/10 group-hover:bg-black/20 transition"></div>
-                        <div class="absolute inset-0 flex items-center justify-center">
-                            <div class="w-20 h-20 bg-white/90 backdrop-blur rounded-full flex items-center justify-center shadow-lg group-hover:scale-110 transition">
-                                <i class="fas fa-play text-solar-orange text-2xl ml-1"></i>
-                            </div>
-                        </div>
+                    <div class="relative rounded-[3rem] overflow-hidden shadow-2xl aspect-video bg-gray-100 border border-gray-100">
+                        <video controls class="w-full h-full object-cover">
+                            <source src="videos/presentation.mp4" type="video/mp4">
+                            Ваш браузер не поддерживает видео.
+                        </video>
                     </div>
                 </div>
 
@@ -238,15 +169,15 @@
                     </p>
                     
                     <div class="grid grid-cols-2 gap-6 mb-8">
-                        <div class="p-4 bg-slate-50 rounded-2xl">
+                        <div class="p-4 bg-slate-50 rounded-2xl border border-slate-100">
                             <i class="fas fa-medal text-3xl text-solar-gold mb-2"></i>
                             <h4 class="font-bold text-solar-dark">Гарантия</h4>
                             <p class="text-xs text-gray-500">Официальный сервис</p>
                         </div>
-                        <div class="p-4 bg-slate-50 rounded-2xl">
+                        <div class="p-4 bg-slate-50 rounded-2xl border border-slate-100">
                             <i class="fas fa-graduation-cap text-3xl text-solar-orange mb-2"></i>
                             <h4 class="font-bold text-solar-dark">Обучение</h4>
-                            <p class="text-xs text-gray-500">Курсы пилотов</p>
+                            <p class="text-xs text-gray-500">Школа пилотов</p>
                         </div>
                     </div>
 
@@ -267,33 +198,93 @@
                 
                 <script>
                     const catalog = [
-                        { id: 'd1', name: 'DJI Mavic 3 Pro', price: '980 000 ₸', type: 'Флагман' },
-                        { id: 'd2', name: 'DJI Mini 4 Pro', price: '450 000 ₸', type: 'Компакт' },
-                        { id: 'd3', name: 'DJI Air 3', price: '580 000 ₸', type: 'Универсал' },
-                        { id: 'd4', name: 'DJI Avata 2', price: '620 000 ₸', type: 'FPV' },
-                        { id: 'd5', name: 'Agras T40', price: 'По запросу', type: 'Агро' },
-                        { id: 'd6', name: 'Matrice 30T', price: '2 400 000 ₸', type: 'Промышленный' },
-                        { id: 'd7', name: 'Mavic 3 Thermal', price: '1 800 000 ₸', type: 'Тепловизор' },
-                        { id: 'd8', name: 'Autel Evo II', price: '890 000 ₸', type: '6K Видео' },
-                        { id: 'd9', name: 'Inspire 3', price: '5 500 000 ₸', type: 'Кино' },
-                        { id: 'd10', name: 'Ryze Tello', price: '55 000 ₸', type: 'Старт' }
+                        { 
+                            id: 'd1', 
+                            name: 'DJI Mavic 3 Pro', 
+                            price: '980 000 ₸', 
+                            type: 'Флагман', 
+                            desc: 'Флагманский дрон с тройной камерой Hasselblad. Идеален для киносъемки, поддерживает Apple ProRes. Максимальное время полета 43 минуты.' 
+                        },
+                        { 
+                            id: 'd2', 
+                            name: 'DJI Mini 4 Pro', 
+                            price: '450 000 ₸', 
+                            type: 'Компакт', 
+                            desc: 'Самый безопасный мини-дрон. Вес менее 249 г, не требует регистрации. Съемка 4K/60fps HDR и вертикальное видео.' 
+                        },
+                        { 
+                            id: 'd3', 
+                            name: 'DJI Air 3', 
+                            price: '580 000 ₸', 
+                            type: 'Универсал', 
+                            desc: 'Первый дрон серии Air с двумя основными камерами. 46 минут полета, всенаправленное обнаружение препятствий.' 
+                        },
+                        { 
+                            id: 'd4', 
+                            name: 'DJI Avata 2', 
+                            price: '620 000 ₸', 
+                            type: 'FPV', 
+                            desc: 'Полное погружение в полет с очками Goggles 3. Безопасный, маневренный, с интуитивным управлением Motion Controller.' 
+                        },
+                        { 
+                            id: 'd5', 
+                            name: 'DJI Agras T50', 
+                            price: 'По запросу', 
+                            type: 'Агро', 
+                            desc: 'Революция в сельском хозяйстве. Распыление, посев и картографирование полей. Высокая производительность.' 
+                        },
+                        { 
+                            id: 'd6', 
+                            name: 'Matrice 350 RTK', 
+                            price: 'По запросу', 
+                            type: 'Промышленный', 
+                            desc: 'Новый стандарт для промышленных дронов. Защита IP55, 55 минут полета, поддержка тепловизоров и лидаров.' 
+                        },
+                        { 
+                            id: 'd7', 
+                            name: 'Mavic 3 Thermal', 
+                            price: '1 800 000 ₸', 
+                            type: 'Тепловизор', 
+                            desc: 'Компактный промышленный дрон с тепловизором. Идеален для поисково-спасательных работ и инспекций.' 
+                        },
+                        { 
+                            id: 'd8', 
+                            name: 'Autel Evo Max 4T', 
+                            price: 'По запросу', 
+                            type: 'AI Дрон', 
+                            desc: 'Умный дрон с искусственным интеллектом для сложных миссий. Работает в условиях радиопомех.' 
+                        },
+                        { 
+                            id: 'd9', 
+                            name: 'DJI Inspire 3', 
+                            price: '5 500 000 ₸', 
+                            type: 'Кино 8K', 
+                            desc: 'Вершина аэрокинематографии. Полнокадровая 8K камера, сменная оптика, RTK точность.' 
+                        },
+                        { 
+                            id: 'd10', 
+                            name: 'Ryze Tello', 
+                            price: '55 000 ₸', 
+                            type: 'Обучение', 
+                            desc: 'Маленький дрон для начинающих. Отлично подходит для обучения детей программированию и основам полета.' 
+                        }
                     ];
 
                     catalog.forEach((item, i) => {
                         document.write(`
-                            <div class="product-card group cursor-pointer" onclick="openModal('${item.id}', '${item.name}', '${item.price}')" data-aos="fade-up" data-aos-delay="${i * 50}">
+                            <div class="product-card group cursor-pointer" onclick="openModal('${item.id}', '${item.name}', '${item.price}', '${item.desc}')" data-aos="fade-up" data-aos-delay="${i * 50}">
                                 <div class="frame-placeholder h-64 w-full flex items-center justify-center rounded-t-3xl text-gray-300">
                                     <span class="font-heading text-6xl font-bold opacity-20">${item.id}</span>
-                                    <div class="absolute top-4 left-4 bg-white text-solar-dark text-[10px] font-bold px-3 py-1 rounded-full shadow-sm">${item.type}</div>
+                                    <div class="absolute top-4 left-4 bg-white text-solar-dark text-[10px] font-bold px-3 py-1 rounded-full shadow-sm border border-gray-100">${item.type}</div>
                                 </div>
                                 
                                 <div class="p-6">
                                     <h3 class="font-heading text-xl font-bold text-solar-dark mb-2 group-hover:text-solar-orange transition">${item.name}</h3>
-                                    <p class="text-xs text-gray-500 mb-6 line-clamp-2">Профессиональный дрон с улучшенной системой стабилизации и камерой высокого разрешения.</p>
+                                    <p class="text-xs text-gray-500 mb-6 line-clamp-2">${item.desc}</p>
                                     
                                     <div class="flex items-center justify-between pt-4 border-t border-gray-100">
                                         <span class="font-bold text-lg text-solar-dark">${item.price}</span>
-                                        <button class="w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center text-solar-dark group-hover:bg-solar-orange group-hover:text-white transition">
+                                        <button class="w-10 h-10 rounded-full bg-slate-50 flex items-center justify-center text-solar-dark group-hover:bg-solar-orange group-hover:text-white transition">
                                             <i class="fas fa-plus"></i>
                                         </button>
                                     </div>
@@ -308,7 +299,7 @@
     </section>
 
     <div id="modal" class="fixed inset-0 z-[100] modal-bg flex items-center justify-center px-4">
-        <div class="absolute inset-0 bg-slate-900/60 backdrop-blur-sm" onclick="closeModal()"></div>
+        <div class="absolute inset-0 bg-slate-900/40 backdrop-blur-sm" onclick="closeModal()"></div>
         
         <div class="modal-panel bg-white w-full max-w-4xl rounded-3xl overflow-hidden relative shadow-2xl flex flex-col md:flex-row max-h-[90vh]">
             <button onclick="closeModal()" class="absolute top-4 right-4 z-20 w-10 h-10 bg-white rounded-full flex items-center justify-center shadow-md hover:bg-gray-100 transition"><i class="fas fa-times text-gray-500"></i></button>
@@ -318,25 +309,29 @@
             </div>
 
             <div class="w-full md:w-1/2 p-8 md:p-12 overflow-y-auto">
-                <span class="text-solar-orange text-xs font-bold uppercase tracking-widest mb-2 block">Premium Quality</span>
+                <span class="text-solar-orange text-xs font-bold uppercase tracking-widest mb-2 block">Premium Drone</span>
                 <h2 id="modal-title" class="font-heading text-3xl font-bold text-solar-dark mb-2">Название</h2>
-                <p id="modal-price" class="text-2xl font-medium text-gray-600 mb-6 pb-4 border-b border-gray-100"></p>
+                <p id="modal-price" class="text-2xl font-medium text-gray-600 mb-6 pb-4 border-b border-gray-100">0 ₸</p>
                 
-                <p class="text-gray-500 text-sm leading-relaxed mb-8">
-                    Полное описание товара. Включает в себя передовые технологии позиционирования, увеличенное время полета и камеру кинематографического уровня.
+                <p id="modal-desc" class="text-gray-500 text-sm leading-relaxed mb-8">
+                    Описание...
                 </p>
 
-                <div class="bg-slate-50 p-4 rounded-xl mb-8 border border-gray-100">
-                    <h4 class="font-bold text-sm mb-2 text-solar-dark">Характеристики:</h4>
-                    <ul class="text-sm text-gray-500 space-y-1">
-                        <li>• Время полета: до 45 мин</li>
-                        <li>• Дальность: до 15 км</li>
-                        <li>• Камера: 4K / 60fps HDR</li>
-                    </ul>
+                <div class="bg-slate-50 p-4 rounded-xl mb-8 border border-gray-100 grid grid-cols-2 gap-4">
+                    <div class="text-center">
+                         <i class="fas fa-wind text-solar-gold mb-1"></i>
+                         <p class="text-[10px] text-gray-400 uppercase">Ветроустойчивость</p>
+                         <p class="font-bold text-sm">Level 5</p>
+                    </div>
+                    <div class="text-center border-l border-gray-200">
+                         <i class="fas fa-wifi text-solar-orange mb-1"></i>
+                         <p class="text-[10px] text-gray-400 uppercase">Дальность</p>
+                         <p class="font-bold text-sm">Max 15km</p>
+                    </div>
                 </div>
 
                 <a id="modal-btn" href="#" target="_blank" class="btn-solar w-full py-4 rounded-xl font-bold uppercase tracking-widest text-center shadow-soft flex items-center justify-center gap-2">
-                    <i class="fab fa-whatsapp text-lg"></i> Заказать сейчас
+                    <i class="fab fa-whatsapp text-lg"></i> Заказать
                 </a>
             </div>
         </div>
@@ -348,29 +343,29 @@
                 <div class="col-span-1 md:col-span-2">
                     <a href="#" class="font-heading text-2xl font-bold text-solar-dark mb-6 block">SOLAR BEAM</a>
                     <p class="text-gray-500 text-sm leading-relaxed max-w-sm mb-6">
-                        Мы создаем будущее уже сегодня. Ваш надежный партнер в мире беспилотных летательных аппаратов.
+                        Продажа и обслуживание беспилотных систем. Мы делаем высокие технологии доступными для каждого.
                     </p>
                     <div class="flex gap-4">
-                        <a href="#" class="w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center text-solar-dark hover:bg-solar-orange hover:text-white transition"><i class="fab fa-instagram"></i></a>
-                        <a href="#" class="w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center text-solar-dark hover:bg-solar-orange hover:text-white transition"><i class="fab fa-telegram"></i></a>
+                        <a href="#" class="w-10 h-10 rounded-full bg-slate-50 flex items-center justify-center text-solar-dark hover:bg-solar-orange hover:text-white transition"><i class="fab fa-instagram"></i></a>
+                        <a href="https://wa.me/77781860510" class="w-10 h-10 rounded-full bg-slate-50 flex items-center justify-center text-solar-dark hover:bg-green-500 hover:text-white transition"><i class="fab fa-whatsapp"></i></a>
                     </div>
                 </div>
 
                 <div>
-                    <h4 class="font-bold text-solar-dark mb-6">Навигация</h4>
+                    <h4 class="font-bold text-solar-dark mb-6">Клиентам</h4>
                     <ul class="space-y-3 text-sm text-gray-500">
                         <li><a href="#home" class="hover:text-solar-orange transition">Главная</a></li>
                         <li><a href="#catalog" class="hover:text-solar-orange transition">Каталог</a></li>
-                        <li><a href="#about" class="hover:text-solar-orange transition">О нас</a></li>
+                        <li><a href="#about" class="hover:text-solar-orange transition">О компании</a></li>
                     </ul>
                 </div>
 
                 <div>
                     <h4 class="font-bold text-solar-dark mb-6">Контакты</h4>
                     <ul class="space-y-3 text-sm text-gray-500">
-                        <li>г. Астана, Казахстан</li>
+                        <li>Астана, Казахстан</li>
                         <li><a href="tel:+77781860510" class="hover:text-solar-orange transition font-bold text-solar-dark text-lg">+7 778 186 05 10</a></li>
-                        <li>info@solarbeam.kz</li>
+                        <li>Пн-Вс: 09:00 - 20:00</li>
                     </ul>
                 </div>
             </div>
@@ -390,7 +385,7 @@
     <script>
         AOS.init({ once: true, offset: 50, duration: 800 });
 
-        // Прелоадер
+        // Preloader
         window.addEventListener('load', () => {
             const preloader = document.getElementById('preloader');
             setTimeout(() => {
@@ -399,18 +394,19 @@
             }, 800);
         });
 
-        // Меню
+        // Toggle Mobile Menu
         function toggleMenu() {
             document.getElementById('mobile-menu').classList.toggle('open');
         }
 
-        // Модальное окно
-        function openModal(id, name, price) {
+        // Open Modal Logic
+        function openModal(id, name, price, desc) {
             document.getElementById('modal-title').innerText = name;
             document.getElementById('modal-price').innerText = price;
+            document.getElementById('modal-desc').innerText = desc;
             document.getElementById('modal-id').innerText = id;
             
-            const link = `https://wa.me/77781860510?text=Здравствуйте! Хочу заказать ${name} (${price})`;
+            const link = `https://wa.me/77781860510?text=Здравствуйте! Меня интересует ${name} (${price}).`;
             document.getElementById('modal-btn').href = link;
 
             document.getElementById('modal').classList.add('active');
@@ -421,18 +417,6 @@
             document.getElementById('modal').classList.remove('active');
             document.body.style.overflow = 'auto';
         }
-
-        // Прозрачность хедера при скролле
-        window.addEventListener('scroll', () => {
-            const header = document.getElementById('header');
-            if (window.scrollY > 50) {
-                header.classList.add('py-2');
-                header.classList.add('shadow-md');
-            } else {
-                header.classList.remove('py-2');
-                header.classList.remove('shadow-md');
-            }
-        });
     </script>
 </body>
 </html>
