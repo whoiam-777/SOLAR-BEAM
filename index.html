@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SOLAR BEAM | Next Gen Drones</title>
+    <title>SOLAR BEAM | Premium Drone Service</title>
     
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
@@ -14,12 +14,15 @@
         tailwind.config = {
             theme: {
                 extend: {
-                    fontFamily: { tech: ['Orbitron'], sans: ['Inter'] },
+                    fontFamily: { 
+                        sans: ['Montserrat', 'sans-serif'],
+                        serif: ['Playfair Display', 'serif']
+                    },
                     colors: { 
                         brand: { 
-                            gold: '#FFD700',
-                            dark: '#05070a',
-                            glass: 'rgba(255, 255, 255, 0.03)'
+                            soft: '#f8f9fa',
+                            gold: '#d4af37', /* Более нежное золото */
+                            accent: '#2d3436'
                         } 
                     }
                 }
@@ -28,166 +31,228 @@
     </script>
 
     <style>
-        body { background: #05070a; color: #fafafa; }
+        body { background-color: #ffffff; color: #2d3436; font-family: 'Montserrat', sans-serif; }
         
-        /* Видео-фон */
-        .video-bg {
-            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            object-fit: cover; z-index: -1; opacity: 0.4;
+        /* Видео-фон с нежным фильтром */
+        .hero-video-container {
+            position: absolute; inset: 0; z-index: -1; overflow: hidden;
+        }
+        .hero-video-container::after {
+            content: ''; position: absolute; inset: 0; background: rgba(255, 255, 255, 0.7); /* Светлый фильтр */
+        }
+        .video-bg { width: 100%; height: 100%; object-fit: cover; }
+
+        /* Стиль карточек как в Kassenova */
+        .kassenova-card {
+            background: #ffffff;
+            border: 1px solid #f1f1f1;
+            transition: all 0.4s ease;
+        }
+        .kassenova-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.05);
+            border-color: #d4af37;
         }
 
-        /* Эффект для пустых рамок */
-        .placeholder-frame {
-            border: 1px dashed rgba(255, 215, 0, 0.3);
-            background: linear-gradient(45deg, rgba(255,255,255,0.02), rgba(255,215,0,0.02));
-            display: flex; flex-direction: column; align-items: center; justify-content: center;
-            aspect-ratio: 16/10; transition: 0.4s;
+        /* Плейсхолдер для видео/фото */
+        .media-placeholder {
+            background: #fdfdfd;
+            border-bottom: 1px solid #f1f1f1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
         }
-        .placeholder-frame:hover { border-color: #FFD700; background: rgba(255, 215, 0, 0.05); }
 
-        /* Кастомный скролл */
-        ::-webkit-scrollbar { width: 5px; }
-        ::-webkit-scrollbar-thumb { background: #FFD700; border-radius: 10px; }
-
-        .glass-card {
-            background: rgba(255, 255, 255, 0.02);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-        }
+        /* Гамбургер */
+        #mobile-menu { transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1); transform: translateX(100%); }
+        #mobile-menu.active { transform: translateX(0); }
     </style>
 </head>
 <body>
 
-    <header class="fixed w-full z-50 px-6 py-4">
-        <div class="max-w-7xl mx-auto glass-card rounded-2xl px-8 py-3 flex justify-between items-center border-white/10">
-            <a href="#" class="flex items-center gap-3">
-                <div class="w-10 h-10 bg-brand-gold rounded-lg flex items-center justify-center shadow-[0_0_15px_#FFD700]">
-                    <i class="fas fa-bolt text-black text-xl"></i>
-                </div>
-                <span class="font-tech text-xl tracking-tighter">SOLAR <span class="text-brand-gold">BEAM</span></span>
+    <header class="fixed w-full z-50 bg-white/80 backdrop-blur-md border-b border-gray-100">
+        <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <a href="#" class="flex items-center gap-2">
+                <img src="https://cdn-icons-png.flaticon.com/512/3214/3214713.png" class="h-8 w-8" alt="logo"> <span class="font-serif text-2xl tracking-tight text-brand-accent">SOLAR <span class="text-brand-gold font-light">BEAM</span></span>
             </a>
             
-            <nav class="hidden md:flex gap-10 font-tech text-[10px] uppercase tracking-[0.2em]">
+            <nav class="hidden lg:flex gap-10 text-[11px] uppercase tracking-[0.2em] font-semibold text-gray-500">
                 <a href="#home" class="hover:text-brand-gold transition">Главная</a>
-                <a href="#showcase" class="hover:text-brand-gold transition">Видео</a>
+                <a href="#video-section" class="hover:text-brand-gold transition">Обзор</a>
                 <a href="#catalog" class="hover:text-brand-gold transition">Каталог</a>
+                <a href="tel:+77781860510" class="text-brand-accent">+7 778 186 05 10</a>
             </nav>
 
-            <a href="tel:+77781860510" class="hidden md:block font-tech text-xs border-b border-brand-gold text-brand-gold">
-                +7 778 186 05 10
-            </a>
+            <div class="flex items-center gap-4">
+                <a href="https://wa.me/77781860510" class="hidden sm:block bg-brand-gold text-white px-6 py-2.5 text-[10px] uppercase tracking-widest font-bold hover:bg-brand-accent transition">
+                    Консультация
+                </a>
+                <button onclick="toggleMenu()" class="lg:hidden text-brand-accent text-2xl">
+                    <i class="fas fa-bars-staggered"></i>
+                </button>
+            </div>
         </div>
     </header>
 
-    <section id="home" class="relative h-screen flex items-center justify-center overflow-hidden">
-        <video autoplay muted loop playsinline class="video-bg">
-            <source src="ВАШЕ_ВИДЕО_ФОН.mp4" type="video/mp4">
-        </video>
-        
-        <div class="relative z-10 text-center space-y-6" data-aos="fade-up">
-            <h1 class="font-tech text-6xl md:text-8xl font-bold tracking-tighter">
-                LIMITLESS <br> <span class="text-transparent bg-clip-text bg-gradient-to-r from-brand-gold to-orange-500">HORIZONS</span>
+    <div id="mobile-menu" class="fixed inset-0 z-[60] bg-white flex flex-col p-10">
+        <button onclick="toggleMenu()" class="self-end text-3xl mb-10 text-brand-accent"><i class="fas fa-times"></i></button>
+        <nav class="flex flex-col gap-8 font-serif text-3xl">
+            <a href="#home" onclick="toggleMenu()">Главная</a>
+            <a href="#video-section" onclick="toggleMenu()">Видео обзор</a>
+            <a href="#catalog" onclick="toggleMenu()">Каталог товаров</a>
+            <a href="tel:+77781860510" class="text-xl font-sans mt-10">+7 778 186 05 10</a>
+        </nav>
+    </div>
+
+    <section id="home" class="relative h-screen flex items-center px-6">
+        <div class="hero-video-container">
+            <video autoplay muted loop playsinline class="video-bg">
+                <source src="ВАШЕ_ВИДЕО.mp4" type="video/mp4">
+            </video>
+        </div>
+
+        <div class="container mx-auto" data-aos="fade-right">
+            <h1 class="font-serif text-5xl md:text-8xl text-brand-accent leading-tight">
+                Искусство <br> <span class="text-brand-gold italic">полета.</span>
             </h1>
-            <p class="font-sans text-gray-400 tracking-widest uppercase text-sm">Премиальные технологии будущего</p>
-            <div class="pt-10">
-                <a href="#catalog" class="px-12 py-4 bg-brand-gold text-black font-tech text-xs uppercase font-bold hover:scale-105 transition shadow-2xl">Смотреть каталог</a>
+            <p class="mt-6 text-gray-600 max-w-lg text-lg font-light leading-relaxed">
+                Solar Beam — это сочетание высоких технологий и премиального сервиса в мире беспилотных систем.
+            </p>
+            <div class="mt-10 flex gap-4">
+                <a href="#catalog" class="border border-brand-accent px-10 py-4 text-[11px] uppercase tracking-widest font-bold hover:bg-brand-accent hover:text-white transition">Перейти к покупкам</a>
             </div>
         </div>
     </section>
 
-    <section id="showcase" class="py-24 px-6 bg-brand-dark">
-        <div class="max-w-6xl mx-auto">
-            <div class="text-center mb-12" data-aos="fade-up">
-                <h2 class="font-tech text-3xl mb-4 text-brand-gold">Presentation</h2>
-                <p class="text-gray-500 uppercase tracking-widest text-xs">Посмотрите наши возможности в движении</p>
-            </div>
-            
-            <div class="relative aspect-video glass-card rounded-3xl overflow-hidden border-white/10 shadow-2xl" data-aos="zoom-in">
-                <div class="absolute inset-0 flex items-center justify-center bg-white/5 group">
+    <section id="video-section" class="py-24 bg-brand-soft">
+        <div class="container mx-auto px-6">
+            <div class="max-w-5xl mx-auto rounded-[2rem] overflow-hidden shadow-2xl relative aspect-video bg-gray-200">
+                <div class="absolute inset-0 flex items-center justify-center">
                     <div class="text-center">
-                        <i class="fas fa-play-circle text-6xl text-brand-gold/50 group-hover:text-brand-gold transition cursor-pointer"></i>
-                        <p class="mt-4 font-tech text-[10px] text-gray-500 uppercase">Место для вашего видео-презентации</p>
+                        <div class="w-20 h-20 bg-white rounded-full flex items-center justify-center shadow-lg cursor-pointer hover:scale-110 transition">
+                            <i class="fas fa-play text-brand-gold text-2xl ml-1"></i>
+                        </div>
+                        <p class="mt-6 font-serif italic text-xl">Ваше основное видео</p>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <section id="catalog" class="py-24 px-6 border-t border-white/5">
-        <div class="max-w-7xl mx-auto">
-            <div class="flex justify-between items-end mb-16">
-                <div>
-                    <h2 class="font-tech text-4xl">CATALOG</h2>
-                    <p class="text-brand-gold font-tech text-[10px] tracking-widest uppercase mt-2">Drones & Equipment</p>
-                </div>
-                <div class="text-right text-gray-600 font-tech text-[10px]">TOTAL: 10 UNITS</div>
+    <section id="catalog" class="py-24">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-20">
+                <h2 class="font-serif text-4xl text-brand-accent">Наш Каталог</h2>
+                <div class="w-20 h-px bg-brand-gold mx-auto mt-4"></div>
             </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6">
-                <div class="placeholder-frame rounded-xl" data-aos="fade-up" data-aos-delay="100">
-                    <span class="font-tech text-2xl text-brand-gold/20">d1</span>
-                    <p class="text-[8px] uppercase tracking-widest text-gray-600 mt-2">Ready for upload</p>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+                
+                <div class="kassenova-card rounded-3xl overflow-hidden flex flex-col" data-aos="fade-up">
+                    <div class="media-placeholder h-64">
+                        <span class="font-serif text-4xl text-gray-100">d1</span>
+                        <p class="absolute bottom-4 text-[9px] uppercase tracking-tighter text-gray-400">Место для фото/видео</p>
+                    </div>
+                    <div class="p-8 flex flex-col flex-grow">
+                        <h3 class="font-serif text-xl mb-2">Название дрона d1</h3>
+                        <p class="text-gray-500 text-sm font-light mb-6 flex-grow">
+                            Краткое описание характеристик: время полета, камера, дальность сигнала.
+                        </p>
+                        <div class="flex items-center justify-between border-t pt-6">
+                            <span class="font-bold text-lg">000 000 ₸</span>
+                            <a href="https://wa.me/77781860510?text=Заказ d1" class="text-brand-gold font-bold text-xs uppercase tracking-widest border-b border-brand-gold pb-1 hover:text-brand-accent hover:border-brand-accent transition">Заказать</a>
+                        </div>
+                    </div>
                 </div>
-                <div class="placeholder-frame rounded-xl" data-aos="fade-up" data-aos-delay="200">
-                    <span class="font-tech text-2xl text-brand-gold/20">d2</span>
-                    <p class="text-[8px] uppercase tracking-widest text-gray-600 mt-2">Ready for upload</p>
+
+                <div class="kassenova-card rounded-3xl overflow-hidden flex flex-col" data-aos="fade-up" data-aos-delay="100">
+                    <div class="media-placeholder h-64">
+                        <span class="font-serif text-4xl text-gray-100">d2</span>
+                    </div>
+                    <div class="p-8">
+                        <h3 class="font-serif text-xl mb-2">Название дрона d2</h3>
+                        <p class="text-gray-500 text-sm font-light mb-6">Подробное описание преимуществ данной модели для клиента.</p>
+                        <div class="flex items-center justify-between border-t pt-6">
+                            <span class="font-bold text-lg">000 000 ₸</span>
+                            <a href="#" class="text-brand-gold font-bold text-xs uppercase tracking-widest border-b border-brand-gold pb-1 transition">Заказать</a>
+                        </div>
+                    </div>
                 </div>
-                <div class="placeholder-frame rounded-xl" data-aos="fade-up" data-aos-delay="300">
-                    <span class="font-tech text-2xl text-brand-gold/20">d3</span>
-                    <p class="text-[8px] uppercase tracking-widest text-gray-600 mt-2">Ready for upload</p>
+
+                <div class="kassenova-card rounded-3xl overflow-hidden flex flex-col" data-aos="fade-up" data-aos-delay="200">
+                    <div class="media-placeholder h-64"><span class="font-serif text-4xl text-gray-100">d3</span></div>
+                    <div class="p-8"><h3 class="font-serif text-xl mb-2">Название d3</h3><p class="text-gray-500 text-sm mb-6 font-light">Описание...</p><div class="flex justify-between items-center pt-6 border-t"><span class="font-bold text-lg">000 ₸</span><a href="#" class="text-brand-gold font-bold text-xs border-b border-brand-gold">Заказать</a></div></div>
                 </div>
-                <div class="placeholder-frame rounded-xl" data-aos="fade-up" data-aos-delay="400">
-                    <span class="font-tech text-2xl text-brand-gold/20">d4</span>
-                    <p class="text-[8px] uppercase tracking-widest text-gray-600 mt-2">Ready for upload</p>
+                
+                <div class="kassenova-card rounded-3xl overflow-hidden flex flex-col" data-aos="fade-up">
+                    <div class="media-placeholder h-64"><span class="font-serif text-4xl text-gray-100">d4</span></div>
+                    <div class="p-8"><h3 class="font-serif text-xl mb-2">Название d4</h3><p class="text-gray-500 text-sm mb-6 font-light">Описание...</p><div class="flex justify-between items-center pt-6 border-t"><span class="font-bold text-lg">000 ₸</span><a href="#" class="text-brand-gold font-bold text-xs border-b border-brand-gold">Заказать</a></div></div>
                 </div>
-                <div class="placeholder-frame rounded-xl" data-aos="fade-up" data-aos-delay="500">
-                    <span class="font-tech text-2xl text-brand-gold/20">d5</span>
-                    <p class="text-[8px] uppercase tracking-widest text-gray-600 mt-2">Ready for upload</p>
+
+                <div class="kassenova-card rounded-3xl overflow-hidden flex flex-col" data-aos="fade-up">
+                    <div class="media-placeholder h-64"><span class="font-serif text-4xl text-gray-100">d5</span></div>
+                    <div class="p-8"><h3 class="font-serif text-xl mb-2">Название d5</h3><p class="text-gray-500 text-sm mb-6 font-light">Описание...</p><div class="flex justify-between items-center pt-6 border-t"><span class="font-bold text-lg">000 ₸</span><a href="#" class="text-brand-gold font-bold text-xs border-b border-brand-gold">Заказать</a></div></div>
                 </div>
-                <div class="placeholder-frame rounded-xl" data-aos="fade-up" data-aos-delay="100">
-                    <span class="font-tech text-2xl text-brand-gold/20">d6</span>
-                    <p class="text-[8px] uppercase tracking-widest text-gray-600 mt-2">Ready for upload</p>
+
+                <div class="kassenova-card rounded-3xl overflow-hidden flex flex-col" data-aos="fade-up">
+                    <div class="media-placeholder h-64"><span class="font-serif text-4xl text-gray-100">d6</span></div>
+                    <div class="p-8"><h3 class="font-serif text-xl mb-2">Название d6</h3><p class="text-gray-500 text-sm mb-6 font-light">Описание...</p><div class="flex justify-between items-center pt-6 border-t"><span class="font-bold text-lg">000 ₸</span><a href="#" class="text-brand-gold font-bold text-xs border-b border-brand-gold">Заказать</a></div></div>
                 </div>
-                <div class="placeholder-frame rounded-xl" data-aos="fade-up" data-aos-delay="200">
-                    <span class="font-tech text-2xl text-brand-gold/20">d7</span>
-                    <p class="text-[8px] uppercase tracking-widest text-gray-600 mt-2">Ready for upload</p>
+
+                <div class="kassenova-card rounded-3xl overflow-hidden flex flex-col" data-aos="fade-up">
+                    <div class="media-placeholder h-64"><span class="font-serif text-4xl text-gray-100">d7</span></div>
+                    <div class="p-8"><h3 class="font-serif text-xl mb-2">Название d7</h3><p class="text-gray-500 text-sm mb-6 font-light">Описание...</p><div class="flex justify-between items-center pt-6 border-t"><span class="font-bold text-lg">000 ₸</span><a href="#" class="text-brand-gold font-bold text-xs border-b border-brand-gold">Заказать</a></div></div>
                 </div>
-                <div class="placeholder-frame rounded-xl" data-aos="fade-up" data-aos-delay="300">
-                    <span class="font-tech text-2xl text-brand-gold/20">d8</span>
-                    <p class="text-[8px] uppercase tracking-widest text-gray-600 mt-2">Ready for upload</p>
+
+                <div class="kassenova-card rounded-3xl overflow-hidden flex flex-col" data-aos="fade-up">
+                    <div class="media-placeholder h-64"><span class="font-serif text-4xl text-gray-100">d8</span></div>
+                    <div class="p-8"><h3 class="font-serif text-xl mb-2">Название d8</h3><p class="text-gray-500 text-sm mb-6 font-light">Описание...</p><div class="flex justify-between items-center pt-6 border-t"><span class="font-bold text-lg">000 ₸</span><a href="#" class="text-brand-gold font-bold text-xs border-b border-brand-gold">Заказать</a></div></div>
                 </div>
-                <div class="placeholder-frame rounded-xl" data-aos="fade-up" data-aos-delay="400">
-                    <span class="font-tech text-2xl text-brand-gold/20">d9</span>
-                    <p class="text-[8px] uppercase tracking-widest text-gray-600 mt-2">Ready for upload</p>
+
+                <div class="kassenova-card rounded-3xl overflow-hidden flex flex-col" data-aos="fade-up">
+                    <div class="media-placeholder h-64"><span class="font-serif text-4xl text-gray-100">d9</span></div>
+                    <div class="p-8"><h3 class="font-serif text-xl mb-2">Название d9</h3><p class="text-gray-500 text-sm mb-6 font-light">Описание...</p><div class="flex justify-between items-center pt-6 border-t"><span class="font-bold text-lg">000 ₸</span><a href="#" class="text-brand-gold font-bold text-xs border-b border-brand-gold">Заказать</a></div></div>
                 </div>
-                <div class="placeholder-frame rounded-xl" data-aos="fade-up" data-aos-delay="500">
-                    <span class="font-tech text-2xl text-brand-gold/20">d10</span>
-                    <p class="text-[8px] uppercase tracking-widest text-gray-600 mt-2">Ready for upload</p>
+
+                <div class="kassenova-card rounded-3xl overflow-hidden flex flex-col" data-aos="fade-up">
+                    <div class="media-placeholder h-64"><span class="font-serif text-4xl text-gray-100">d10</span></div>
+                    <div class="p-8"><h3 class="font-serif text-xl mb-2">Название d10</h3><p class="text-gray-500 text-sm mb-6 font-light">Описание...</p><div class="flex justify-between items-center pt-6 border-t"><span class="font-bold text-lg">000 ₸</span><a href="#" class="text-brand-gold font-bold text-xs border-b border-brand-gold">Заказать</a></div></div>
                 </div>
+
             </div>
         </div>
     </section>
 
-    <footer class="py-12 bg-black/40 border-t border-white/5">
-        <div class="max-w-7xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-8">
-            <div class="font-tech text-lg">SOLAR <span class="text-brand-gold">BEAM</span></div>
-            
-            <div class="flex gap-8 items-center">
-                <a href="https://wa.me/77781860510" class="text-2xl hover:text-brand-gold transition"><i class="fab fa-whatsapp"></i></a>
-                <a href="#" class="text-2xl hover:text-brand-gold transition"><i class="fab fa-instagram"></i></a>
-                <div class="h-8 w-px bg-white/10 hidden md:block"></div>
-                <a href="tel:+77781860510" class="font-tech text-xs tracking-widest">+7 778 186 05 10</a>
+    <footer class="bg-brand-accent py-20 text-white">
+        <div class="container mx-auto px-6 grid md:grid-cols-3 gap-12 text-center md:text-left">
+            <div>
+                <span class="font-serif text-3xl">SOLAR BEAM</span>
+                <p class="mt-4 text-gray-400 font-light">Премиальные решения в области беспилотной авиации.</p>
             </div>
-
-            <div class="text-[8px] text-gray-600 uppercase tracking-widest font-tech">
-                © 2026 SOLAR BEAM. NEXT GENERATION DRONES.
+            <div>
+                <h4 class="font-serif text-xl mb-6 text-brand-gold">Связь</h4>
+                <a href="tel:+77781860510" class="block text-2xl font-light">+7 778 186 05 10</a>
+                <a href="https://wa.me/77781860510" class="mt-4 inline-block text-brand-gold border-b border-brand-gold">WhatsApp Messenger</a>
+            </div>
+            <div>
+                <h4 class="font-serif text-xl mb-6 text-brand-gold">Соцсети</h4>
+                <div class="flex justify-center md:justify-start gap-6">
+                    <a href="#" class="text-2xl hover:text-brand-gold transition"><i class="fab fa-instagram"></i></a>
+                    <a href="#" class="text-2xl hover:text-brand-gold transition"><i class="fab fa-youtube"></i></a>
+                </div>
             </div>
         </div>
     </footer>
 
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script>
-        AOS.init();
+        AOS.init({ duration: 1000, once: true });
+
+        function toggleMenu() {
+            document.getElementById('mobile-menu').classList.toggle('active');
+        }
     </script>
 </body>
 </html>
