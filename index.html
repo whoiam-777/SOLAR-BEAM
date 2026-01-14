@@ -2,10 +2,10 @@
 <html lang="ru" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SOLAR BEAM | Premium Drone Service</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>SOLAR BEAM | Premium Drone Systems</title>
     
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@200;400;600;800&family=Manrope:wght@300;400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
@@ -15,15 +15,19 @@
             theme: {
                 extend: {
                     fontFamily: { 
-                        sans: ['Montserrat', 'sans-serif'],
-                        serif: ['Playfair Display', 'serif']
+                        display: ['"Outfit"', 'sans-serif'], 
+                        body: ['"Manrope"', 'sans-serif'] 
                     },
                     colors: { 
                         brand: { 
-                            soft: '#f8f9fa',
-                            gold: '#d4af37', /* Более нежное золото */
-                            accent: '#2d3436'
+                            gold: '#FFD166',    /* Солнечное золото */
+                            dark: '#0B0F19',    /* Глубокий премиум темный */
+                            glass: 'rgba(255, 255, 255, 0.05)',
+                            border: 'rgba(255, 255, 255, 0.1)'
                         } 
+                    },
+                    backgroundImage: {
+                        'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
                     }
                 }
             }
@@ -31,228 +35,354 @@
     </script>
 
     <style>
-        body { background-color: #ffffff; color: #2d3436; font-family: 'Montserrat', sans-serif; }
+        body { background-color: #0B0F19; color: #ffffff; font-family: 'Manrope', sans-serif; overflow-x: hidden; }
         
-        /* Видео-фон с нежным фильтром */
-        .hero-video-container {
-            position: absolute; inset: 0; z-index: -1; overflow: hidden;
-        }
-        .hero-video-container::after {
-            content: ''; position: absolute; inset: 0; background: rgba(255, 255, 255, 0.7); /* Светлый фильтр */
-        }
-        .video-bg { width: 100%; height: 100%; object-fit: cover; }
+        /* Скроллбар */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #0B0F19; }
+        ::-webkit-scrollbar-thumb { background: #FFD166; border-radius: 10px; }
 
-        /* Стиль карточек как в Kassenova */
-        .kassenova-card {
-            background: #ffffff;
-            border: 1px solid #f1f1f1;
-            transition: all 0.4s ease;
+        /* Эффект матового стекла */
+        .glass-panel {
+            background: rgba(11, 15, 25, 0.7);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
         }
-        .kassenova-card:hover {
+
+        /* Видео фон */
+        .video-bg {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; z-index: -1;
+        }
+        .overlay-grad {
+            background: linear-gradient(to bottom, rgba(11,15,25,0.3), #0B0F19);
+        }
+
+        /* Анимация карточек */
+        .drone-card {
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .drone-card:hover {
             transform: translateY(-10px);
-            box-shadow: 0 20px 40px rgba(0,0,0,0.05);
-            border-color: #d4af37;
+            box-shadow: 0 20px 40px -5px rgba(255, 209, 102, 0.15);
+            border-color: #FFD166;
         }
 
-        /* Плейсхолдер для видео/фото */
-        .media-placeholder {
-            background: #fdfdfd;
-            border-bottom: 1px solid #f1f1f1;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            position: relative;
-            overflow: hidden;
-        }
+        /* Модальное окно */
+        .modal { opacity: 0; pointer-events: none; transition: all 0.4s ease; }
+        .modal.active { opacity: 1; pointer-events: auto; }
+        .modal-content { transform: scale(0.95) translateY(20px); transition: all 0.4s ease; }
+        .modal.active .modal-content { transform: scale(1) translateY(0); }
 
         /* Гамбургер */
-        #mobile-menu { transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1); transform: translateX(100%); }
-        #mobile-menu.active { transform: translateX(0); }
+        #mobile-menu { transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1); transform: translateX(100%); }
+        #mobile-menu.open { transform: translateX(0); }
     </style>
 </head>
 <body>
 
-    <header class="fixed w-full z-50 bg-white/80 backdrop-blur-md border-b border-gray-100">
-        <div class="container mx-auto px-6 py-4 flex justify-between items-center">
-            <a href="#" class="flex items-center gap-2">
-                <img src="https://cdn-icons-png.flaticon.com/512/3214/3214713.png" class="h-8 w-8" alt="logo"> <span class="font-serif text-2xl tracking-tight text-brand-accent">SOLAR <span class="text-brand-gold font-light">BEAM</span></span>
-            </a>
-            
-            <nav class="hidden lg:flex gap-10 text-[11px] uppercase tracking-[0.2em] font-semibold text-gray-500">
-                <a href="#home" class="hover:text-brand-gold transition">Главная</a>
-                <a href="#video-section" class="hover:text-brand-gold transition">Обзор</a>
-                <a href="#catalog" class="hover:text-brand-gold transition">Каталог</a>
-                <a href="tel:+77781860510" class="text-brand-accent">+7 778 186 05 10</a>
-            </nav>
+    <div id="preloader" class="fixed inset-0 z-[9999] bg-[#0B0F19] flex items-center justify-center transition-opacity duration-700">
+        <div class="text-center">
+            <i class="fas fa-sun text-4xl text-brand-gold animate-spin-slow mb-4"></i>
+            <h2 class="font-display text-2xl tracking-[0.5em] animate-pulse">SOLAR BEAM</h2>
+        </div>
+    </div>
 
-            <div class="flex items-center gap-4">
-                <a href="https://wa.me/77781860510" class="hidden sm:block bg-brand-gold text-white px-6 py-2.5 text-[10px] uppercase tracking-widest font-bold hover:bg-brand-accent transition">
-                    Консультация
+    <header class="fixed w-full z-50 transition-all duration-300 top-0" id="navbar">
+        <div class="container mx-auto px-6 py-4">
+            <div class="glass-panel rounded-full px-6 py-3 flex justify-between items-center shadow-2xl">
+                <a href="#" class="flex items-center gap-3 group">
+                    <div class="w-10 h-10 rounded-full bg-brand-gold flex items-center justify-center text-[#0B0F19] group-hover:rotate-180 transition duration-700">
+                        <i class="fas fa-fan text-xl"></i>
+                    </div>
+                    <div class="flex flex-col">
+                        <span class="font-display font-bold text-lg leading-none tracking-wide">SOLAR BEAM</span>
+                        <span class="text-[9px] text-gray-400 uppercase tracking-[0.3em]">Drone Systems</span>
+                    </div>
                 </a>
-                <button onclick="toggleMenu()" class="lg:hidden text-brand-accent text-2xl">
-                    <i class="fas fa-bars-staggered"></i>
-                </button>
+
+                <nav class="hidden lg:flex gap-8 text-xs font-bold uppercase tracking-widest text-gray-300">
+                    <a href="#home" class="hover:text-brand-gold transition duration-300">Главная</a>
+                    <a href="#about" class="hover:text-brand-gold transition duration-300">О компании</a>
+                    <a href="#catalog" class="hover:text-brand-gold transition duration-300">Каталог</a>
+                    <a href="#contacts" class="hover:text-brand-gold transition duration-300">Контакты</a>
+                </nav>
+
+                <div class="flex items-center gap-4">
+                    <a href="https://wa.me/77781860510" class="hidden md:flex items-center gap-2 bg-white/10 hover:bg-brand-gold hover:text-black transition px-5 py-2 rounded-full text-xs font-bold uppercase tracking-wider backdrop-blur-md">
+                        <i class="fab fa-whatsapp text-lg"></i> <span>Связаться</span>
+                    </a>
+                    <button onclick="toggleMenu()" class="lg:hidden text-2xl text-white hover:text-brand-gold transition">
+                        <i class="fas fa-bars-staggered"></i>
+                    </button>
+                </div>
             </div>
         </div>
     </header>
 
-    <div id="mobile-menu" class="fixed inset-0 z-[60] bg-white flex flex-col p-10">
-        <button onclick="toggleMenu()" class="self-end text-3xl mb-10 text-brand-accent"><i class="fas fa-times"></i></button>
-        <nav class="flex flex-col gap-8 font-serif text-3xl">
-            <a href="#home" onclick="toggleMenu()">Главная</a>
-            <a href="#video-section" onclick="toggleMenu()">Видео обзор</a>
-            <a href="#catalog" onclick="toggleMenu()">Каталог товаров</a>
-            <a href="tel:+77781860510" class="text-xl font-sans mt-10">+7 778 186 05 10</a>
-        </nav>
+    <div id="mobile-menu" class="fixed inset-0 z-[60] bg-[#0B0F19]/95 backdrop-blur-xl flex flex-col justify-center items-center gap-8">
+        <button onclick="toggleMenu()" class="absolute top-8 right-8 text-3xl text-gray-400 hover:text-white"><i class="fas fa-times"></i></button>
+        <a href="#home" onclick="toggleMenu()" class="font-display text-3xl font-bold hover:text-brand-gold transition">Главная</a>
+        <a href="#about" onclick="toggleMenu()" class="font-display text-3xl font-bold hover:text-brand-gold transition">О компании</a>
+        <a href="#catalog" onclick="toggleMenu()" class="font-display text-3xl font-bold hover:text-brand-gold transition">Каталог</a>
+        <a href="https://wa.me/77781860510" class="mt-8 px-8 py-4 bg-brand-gold text-black rounded-full font-bold uppercase tracking-widest">Написать в WhatsApp</a>
     </div>
 
-    <section id="home" class="relative h-screen flex items-center px-6">
-        <div class="hero-video-container">
-            <video autoplay muted loop playsinline class="video-bg">
-                <source src="ВАШЕ_ВИДЕО.mp4" type="video/mp4">
-            </video>
+    <section id="home" class="relative h-screen flex items-center justify-center overflow-hidden">
+        <video autoplay muted loop playsinline class="video-bg">
+            <source src="videos/hero.mp4" type="video/mp4">
+        </video>
+        <div class="absolute inset-0 bg-black/60"></div>
+        <div class="absolute inset-0 bg-gradient-to-t from-[#0B0F19] via-transparent to-transparent"></div>
+
+        <div class="container mx-auto px-6 relative z-10 text-center">
+            <div class="inline-block px-4 py-1 rounded-full border border-brand-gold/30 bg-brand-gold/10 backdrop-blur-md mb-8" data-aos="fade-down">
+                <span class="text-brand-gold text-xs font-bold uppercase tracking-[0.3em]">Future Technology</span>
+            </div>
+            
+            <h1 class="font-display font-bold text-5xl md:text-7xl lg:text-9xl mb-6 leading-tight tracking-tight" data-aos="zoom-in" data-aos-duration="1000">
+                SOLAR <span class="text-transparent bg-clip-text bg-gradient-to-r from-brand-gold to-white">BEAM</span>
+            </h1>
+            
+            <p class="font-body text-gray-300 text-lg md:text-xl max-w-2xl mx-auto mb-12 font-light leading-relaxed" data-aos="fade-up" data-aos-delay="200">
+                Профессиональные беспилотные решения. Продажа, сервис и обучение пилотированию. Взгляните на мир с новой высоты.
+            </p>
+
+            <div class="flex flex-col sm:flex-row justify-center gap-6" data-aos="fade-up" data-aos-delay="400">
+                <a href="#catalog" class="px-10 py-5 bg-brand-gold text-[#0B0F19] rounded-full font-bold uppercase tracking-widest hover:scale-105 transition duration-300 shadow-[0_0_30px_rgba(255,209,102,0.4)]">
+                    Смотреть каталог
+                </a>
+                <a href="#about" class="px-10 py-5 glass-panel rounded-full font-bold uppercase tracking-widest hover:bg-white/10 transition duration-300">
+                    О нас
+                </a>
+            </div>
         </div>
 
-        <div class="container mx-auto" data-aos="fade-right">
-            <h1 class="font-serif text-5xl md:text-8xl text-brand-accent leading-tight">
-                Искусство <br> <span class="text-brand-gold italic">полета.</span>
-            </h1>
-            <p class="mt-6 text-gray-600 max-w-lg text-lg font-light leading-relaxed">
-                Solar Beam — это сочетание высоких технологий и премиального сервиса в мире беспилотных систем.
-            </p>
-            <div class="mt-10 flex gap-4">
-                <a href="#catalog" class="border border-brand-accent px-10 py-4 text-[11px] uppercase tracking-widest font-bold hover:bg-brand-accent hover:text-white transition">Перейти к покупкам</a>
-            </div>
+        <div class="absolute bottom-10 left-1/2 -translate-x-1/2 animate-bounce">
+            <i class="fas fa-chevron-down text-white/30 text-2xl"></i>
         </div>
     </section>
 
-    <section id="video-section" class="py-24 bg-brand-soft">
+    <section id="about" class="py-24 relative overflow-hidden">
+        <div class="absolute top-0 right-0 w-[500px] h-[500px] bg-brand-gold/5 rounded-full blur-[120px] -z-10"></div>
+
         <div class="container mx-auto px-6">
-            <div class="max-w-5xl mx-auto rounded-[2rem] overflow-hidden shadow-2xl relative aspect-video bg-gray-200">
-                <div class="absolute inset-0 flex items-center justify-center">
-                    <div class="text-center">
-                        <div class="w-20 h-20 bg-white rounded-full flex items-center justify-center shadow-lg cursor-pointer hover:scale-110 transition">
-                            <i class="fas fa-play text-brand-gold text-2xl ml-1"></i>
+            <div class="flex flex-col lg:flex-row items-center gap-16">
+                <div class="lg:w-1/2" data-aos="fade-right">
+                    <span class="text-brand-gold font-bold tracking-[0.2em] uppercase text-sm mb-4 block">О Компании</span>
+                    <h2 class="font-display text-4xl md:text-5xl font-bold mb-6 leading-tight">Инновации в каждом полете</h2>
+                    <p class="text-gray-400 leading-relaxed mb-6 font-light">
+                        SOLAR BEAM — это не просто магазин дронов. Это центр компетенций, где технологии встречаются с искусством полета. Мы поставляем оборудование для агросектора, киноиндустрии и безопасности.
+                    </p>
+                    <ul class="space-y-4 mb-8">
+                        <li class="flex items-center gap-4 text-gray-300">
+                            <i class="fas fa-check-circle text-brand-gold"></i> Официальная гарантия и сервис
+                        </li>
+                        <li class="flex items-center gap-4 text-gray-300">
+                            <i class="fas fa-check-circle text-brand-gold"></i> Обучение пилотов с нуля
+                        </li>
+                        <li class="flex items-center gap-4 text-gray-300">
+                            <i class="fas fa-check-circle text-brand-gold"></i> Доставка по всему Казахстану
+                        </li>
+                    </ul>
+                    <a href="https://wa.me/77781860510" class="text-brand-gold border-b border-brand-gold pb-1 hover:text-white hover:border-white transition">Задать вопрос менеджеру</a>
+                </div>
+
+                <div class="lg:w-1/2 w-full" data-aos="fade-left">
+                    <div class="relative aspect-video rounded-3xl overflow-hidden border border-white/10 shadow-2xl group cursor-pointer">
+                        <div class="absolute inset-0 bg-black/40 group-hover:bg-black/20 transition duration-500 z-10"></div>
+                        <img src="https://images.unsplash.com/photo-1527977966376-1c8408f9f108?q=80&w=1000&auto=format&fit=crop" class="w-full h-full object-cover transform group-hover:scale-110 transition duration-700">
+                        <div class="absolute inset-0 z-20 flex items-center justify-center">
+                            <div class="w-20 h-20 rounded-full bg-white/10 backdrop-blur-md flex items-center justify-center border border-white/30 group-hover:scale-110 transition duration-300">
+                                <i class="fas fa-play text-white text-2xl ml-1"></i>
+                            </div>
                         </div>
-                        <p class="mt-6 font-serif italic text-xl">Ваше основное видео</p>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <section id="catalog" class="py-24">
+    <section id="catalog" class="py-24 bg-[#080b12]">
         <div class="container mx-auto px-6">
-            <div class="text-center mb-20">
-                <h2 class="font-serif text-4xl text-brand-accent">Наш Каталог</h2>
-                <div class="w-20 h-px bg-brand-gold mx-auto mt-4"></div>
+            <div class="text-center mb-20" data-aos="fade-up">
+                <h2 class="font-display text-4xl md:text-5xl font-bold mb-4">Наш Каталог</h2>
+                <div class="w-24 h-1 bg-brand-gold mx-auto rounded-full"></div>
+                <p class="text-gray-500 mt-6 max-w-xl mx-auto">Выберите дрон, который подходит именно под ваши задачи. От любительских моделей до промышленных гигантов.</p>
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
                 
-                <div class="kassenova-card rounded-3xl overflow-hidden flex flex-col" data-aos="fade-up">
-                    <div class="media-placeholder h-64">
-                        <span class="font-serif text-4xl text-gray-100">d1</span>
-                        <p class="absolute bottom-4 text-[9px] uppercase tracking-tighter text-gray-400">Место для фото/видео</p>
-                    </div>
-                    <div class="p-8 flex flex-col flex-grow">
-                        <h3 class="font-serif text-xl mb-2">Название дрона d1</h3>
-                        <p class="text-gray-500 text-sm font-light mb-6 flex-grow">
-                            Краткое описание характеристик: время полета, камера, дальность сигнала.
-                        </p>
-                        <div class="flex items-center justify-between border-t pt-6">
-                            <span class="font-bold text-lg">000 000 ₸</span>
-                            <a href="https://wa.me/77781860510?text=Заказ d1" class="text-brand-gold font-bold text-xs uppercase tracking-widest border-b border-brand-gold pb-1 hover:text-brand-accent hover:border-brand-accent transition">Заказать</a>
-                        </div>
-                    </div>
-                </div>
+                <script>
+                    const products = [
+                        {id: 'd1', name: 'Модель d1', price: '980 000 ₸', type: 'Флагман'},
+                        {id: 'd2', name: 'Модель d2', price: '450 000 ₸', type: 'Компакт'},
+                        {id: 'd3', name: 'Модель d3', price: '620 000 ₸', type: 'FPV'},
+                        {id: 'd4', name: 'Модель d4', price: 'По запросу', type: 'Агро'},
+                        {id: 'd5', name: 'Модель d5', price: 'По запросу', type: 'Industrial'},
+                        {id: 'd6', name: 'Модель d6', price: '580 000 ₸', type: 'Кино'},
+                        {id: 'd7', name: 'Модель d7', price: '140 000 ₸', type: 'Start'},
+                        {id: 'd8', name: 'Модель d8', price: '890 000 ₸', type: 'Pro'},
+                        {id: 'd9', name: 'Модель d9', price: 'По запросу', type: 'Enterprise'},
+                        {id: 'd10', name: 'Модель d10', price: '55 000 ₸', type: 'Toy'}
+                    ];
 
-                <div class="kassenova-card rounded-3xl overflow-hidden flex flex-col" data-aos="fade-up" data-aos-delay="100">
-                    <div class="media-placeholder h-64">
-                        <span class="font-serif text-4xl text-gray-100">d2</span>
-                    </div>
-                    <div class="p-8">
-                        <h3 class="font-serif text-xl mb-2">Название дрона d2</h3>
-                        <p class="text-gray-500 text-sm font-light mb-6">Подробное описание преимуществ данной модели для клиента.</p>
-                        <div class="flex items-center justify-between border-t pt-6">
-                            <span class="font-bold text-lg">000 000 ₸</span>
-                            <a href="#" class="text-brand-gold font-bold text-xs uppercase tracking-widest border-b border-brand-gold pb-1 transition">Заказать</a>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="kassenova-card rounded-3xl overflow-hidden flex flex-col" data-aos="fade-up" data-aos-delay="200">
-                    <div class="media-placeholder h-64"><span class="font-serif text-4xl text-gray-100">d3</span></div>
-                    <div class="p-8"><h3 class="font-serif text-xl mb-2">Название d3</h3><p class="text-gray-500 text-sm mb-6 font-light">Описание...</p><div class="flex justify-between items-center pt-6 border-t"><span class="font-bold text-lg">000 ₸</span><a href="#" class="text-brand-gold font-bold text-xs border-b border-brand-gold">Заказать</a></div></div>
-                </div>
-                
-                <div class="kassenova-card rounded-3xl overflow-hidden flex flex-col" data-aos="fade-up">
-                    <div class="media-placeholder h-64"><span class="font-serif text-4xl text-gray-100">d4</span></div>
-                    <div class="p-8"><h3 class="font-serif text-xl mb-2">Название d4</h3><p class="text-gray-500 text-sm mb-6 font-light">Описание...</p><div class="flex justify-between items-center pt-6 border-t"><span class="font-bold text-lg">000 ₸</span><a href="#" class="text-brand-gold font-bold text-xs border-b border-brand-gold">Заказать</a></div></div>
-                </div>
-
-                <div class="kassenova-card rounded-3xl overflow-hidden flex flex-col" data-aos="fade-up">
-                    <div class="media-placeholder h-64"><span class="font-serif text-4xl text-gray-100">d5</span></div>
-                    <div class="p-8"><h3 class="font-serif text-xl mb-2">Название d5</h3><p class="text-gray-500 text-sm mb-6 font-light">Описание...</p><div class="flex justify-between items-center pt-6 border-t"><span class="font-bold text-lg">000 ₸</span><a href="#" class="text-brand-gold font-bold text-xs border-b border-brand-gold">Заказать</a></div></div>
-                </div>
-
-                <div class="kassenova-card rounded-3xl overflow-hidden flex flex-col" data-aos="fade-up">
-                    <div class="media-placeholder h-64"><span class="font-serif text-4xl text-gray-100">d6</span></div>
-                    <div class="p-8"><h3 class="font-serif text-xl mb-2">Название d6</h3><p class="text-gray-500 text-sm mb-6 font-light">Описание...</p><div class="flex justify-between items-center pt-6 border-t"><span class="font-bold text-lg">000 ₸</span><a href="#" class="text-brand-gold font-bold text-xs border-b border-brand-gold">Заказать</a></div></div>
-                </div>
-
-                <div class="kassenova-card rounded-3xl overflow-hidden flex flex-col" data-aos="fade-up">
-                    <div class="media-placeholder h-64"><span class="font-serif text-4xl text-gray-100">d7</span></div>
-                    <div class="p-8"><h3 class="font-serif text-xl mb-2">Название d7</h3><p class="text-gray-500 text-sm mb-6 font-light">Описание...</p><div class="flex justify-between items-center pt-6 border-t"><span class="font-bold text-lg">000 ₸</span><a href="#" class="text-brand-gold font-bold text-xs border-b border-brand-gold">Заказать</a></div></div>
-                </div>
-
-                <div class="kassenova-card rounded-3xl overflow-hidden flex flex-col" data-aos="fade-up">
-                    <div class="media-placeholder h-64"><span class="font-serif text-4xl text-gray-100">d8</span></div>
-                    <div class="p-8"><h3 class="font-serif text-xl mb-2">Название d8</h3><p class="text-gray-500 text-sm mb-6 font-light">Описание...</p><div class="flex justify-between items-center pt-6 border-t"><span class="font-bold text-lg">000 ₸</span><a href="#" class="text-brand-gold font-bold text-xs border-b border-brand-gold">Заказать</a></div></div>
-                </div>
-
-                <div class="kassenova-card rounded-3xl overflow-hidden flex flex-col" data-aos="fade-up">
-                    <div class="media-placeholder h-64"><span class="font-serif text-4xl text-gray-100">d9</span></div>
-                    <div class="p-8"><h3 class="font-serif text-xl mb-2">Название d9</h3><p class="text-gray-500 text-sm mb-6 font-light">Описание...</p><div class="flex justify-between items-center pt-6 border-t"><span class="font-bold text-lg">000 ₸</span><a href="#" class="text-brand-gold font-bold text-xs border-b border-brand-gold">Заказать</a></div></div>
-                </div>
-
-                <div class="kassenova-card rounded-3xl overflow-hidden flex flex-col" data-aos="fade-up">
-                    <div class="media-placeholder h-64"><span class="font-serif text-4xl text-gray-100">d10</span></div>
-                    <div class="p-8"><h3 class="font-serif text-xl mb-2">Название d10</h3><p class="text-gray-500 text-sm mb-6 font-light">Описание...</p><div class="flex justify-between items-center pt-6 border-t"><span class="font-bold text-lg">000 ₸</span><a href="#" class="text-brand-gold font-bold text-xs border-b border-brand-gold">Заказать</a></div></div>
-                </div>
+                    products.forEach((p, index) => {
+                        document.write(`
+                            <div class="drone-card glass-panel rounded-2xl overflow-hidden group cursor-pointer border border-white/5" onclick="openModal('${p.id}', '${p.name}', '${p.price}')" data-aos="fade-up" data-aos-delay="${index * 50}">
+                                <div class="relative h-64 bg-[#131824] overflow-hidden flex items-center justify-center">
+                                    <span class="font-display text-6xl text-white/5 font-bold group-hover:text-brand-gold/20 transition duration-500">${p.id}</span>
+                                    <div class="absolute top-4 left-4 bg-brand-gold text-black text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-wider">${p.type}</div>
+                                    <p class="absolute bottom-4 text-gray-600 text-[10px] uppercase tracking-widest">Нажмите для просмотра</p>
+                                </div>
+                                <div class="p-6">
+                                    <div class="flex justify-between items-start mb-2">
+                                        <h3 class="font-display text-xl font-bold text-white group-hover:text-brand-gold transition">${p.name}</h3>
+                                    </div>
+                                    <p class="text-gray-400 text-xs mb-6 line-clamp-2">Краткое описание характеристик дрона, дальности полета и качества камеры.</p>
+                                    <div class="flex justify-between items-center pt-4 border-t border-white/10">
+                                        <span class="font-bold text-lg text-white">${p.price}</span>
+                                        <button class="w-10 h-10 rounded-full border border-white/20 flex items-center justify-center hover:bg-brand-gold hover:text-black hover:border-brand-gold transition">
+                                            <i class="fas fa-arrow-right"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        `);
+                    });
+                </script>
 
             </div>
         </div>
     </section>
 
-    <footer class="bg-brand-accent py-20 text-white">
-        <div class="container mx-auto px-6 grid md:grid-cols-3 gap-12 text-center md:text-left">
-            <div>
-                <span class="font-serif text-3xl">SOLAR BEAM</span>
-                <p class="mt-4 text-gray-400 font-light">Премиальные решения в области беспилотной авиации.</p>
+    <div id="product-modal" class="modal fixed inset-0 z-[100] flex items-center justify-center px-4">
+        <div class="absolute inset-0 bg-black/80 backdrop-blur-sm" onclick="closeModal()"></div>
+        <div class="modal-content glass-panel w-full max-w-4xl rounded-3xl overflow-hidden relative flex flex-col md:flex-row shadow-2xl border border-brand-gold/20">
+            
+            <button onclick="closeModal()" class="absolute top-4 right-4 z-20 w-10 h-10 rounded-full bg-black/50 text-white hover:bg-red-500 transition flex items-center justify-center">
+                <i class="fas fa-times"></i>
+            </button>
+
+            <div class="w-full md:w-1/2 bg-[#131824] flex items-center justify-center min-h-[300px]">
+                <span id="m-id" class="font-display text-9xl text-white/5 font-bold">d1</span>
             </div>
-            <div>
-                <h4 class="font-serif text-xl mb-6 text-brand-gold">Связь</h4>
-                <a href="tel:+77781860510" class="block text-2xl font-light">+7 778 186 05 10</a>
-                <a href="https://wa.me/77781860510" class="mt-4 inline-block text-brand-gold border-b border-brand-gold">WhatsApp Messenger</a>
-            </div>
-            <div>
-                <h4 class="font-serif text-xl mb-6 text-brand-gold">Соцсети</h4>
-                <div class="flex justify-center md:justify-start gap-6">
-                    <a href="#" class="text-2xl hover:text-brand-gold transition"><i class="fab fa-instagram"></i></a>
-                    <a href="#" class="text-2xl hover:text-brand-gold transition"><i class="fab fa-youtube"></i></a>
+
+            <div class="w-full md:w-1/2 p-8 md:p-12 flex flex-col justify-center bg-[#0B0F19]">
+                <span class="text-brand-gold text-xs font-bold uppercase tracking-[0.2em] mb-2">Solar Beam Catalog</span>
+                <h2 id="m-title" class="font-display text-3xl md:text-4xl font-bold mb-4">Название товара</h2>
+                <p id="m-price" class="text-2xl text-white font-light mb-8 border-b border-white/10 pb-4">000 000 ₸</p>
+                
+                <p class="text-gray-400 text-sm leading-relaxed mb-8">
+                    Здесь будет подробное описание товара. Характеристики камеры, время полета, комплектация и особенности модели. Мы предоставляем полную гарантию и сервисное обслуживание.
+                </p>
+
+                <div class="grid grid-cols-2 gap-4 mb-8">
+                    <div class="bg-white/5 p-3 rounded-lg text-center">
+                        <i class="fas fa-wind text-brand-gold mb-2"></i>
+                        <p class="text-[10px] text-gray-400 uppercase">Время полета</p>
+                        <p class="font-bold">45 мин</p>
+                    </div>
+                    <div class="bg-white/5 p-3 rounded-lg text-center">
+                        <i class="fas fa-video text-brand-gold mb-2"></i>
+                        <p class="text-[10px] text-gray-400 uppercase">Камера</p>
+                        <p class="font-bold">4K / 60fps</p>
+                    </div>
                 </div>
+
+                <a id="m-btn" href="#" target="_blank" class="w-full py-4 bg-brand-gold text-black rounded-xl font-bold uppercase tracking-widest text-center hover:bg-white transition flex items-center justify-center gap-3">
+                    <i class="fab fa-whatsapp text-xl"></i> Заказать
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <footer id="contacts" class="bg-[#05060a] pt-20 pb-10 border-t border-white/5">
+        <div class="container mx-auto px-6">
+            <div class="grid md:grid-cols-3 gap-12 text-center md:text-left">
+                <div>
+                    <div class="flex items-center justify-center md:justify-start gap-3 mb-6">
+                        <div class="w-8 h-8 rounded-full bg-brand-gold flex items-center justify-center text-[#0B0F19]">
+                            <i class="fas fa-fan"></i>
+                        </div>
+                        <span class="font-display font-bold text-xl">SOLAR BEAM</span>
+                    </div>
+                    <p class="text-gray-500 text-sm leading-relaxed">
+                        Мы делаем небо доступным. Профессиональные дроны и сервис высокого класса в Казахстане.
+                    </p>
+                </div>
+
+                <div>
+                    <h4 class="font-display font-bold text-white mb-6 uppercase tracking-widest text-sm">Контакты</h4>
+                    <div class="space-y-4">
+                        <a href="tel:+77781860510" class="block text-xl hover:text-brand-gold transition">+7 778 186 05 10</a>
+                        <p class="text-gray-500 text-sm">г. Астана, Казахстан</p>
+                    </div>
+                </div>
+
+                <div>
+                    <h4 class="font-display font-bold text-white mb-6 uppercase tracking-widest text-sm">Мы в соцсетях</h4>
+                    <div class="flex justify-center md:justify-start gap-4">
+                        <a href="#" class="w-12 h-12 rounded-full bg-white/5 flex items-center justify-center hover:bg-brand-gold hover:text-black transition"><i class="fab fa-instagram text-xl"></i></a>
+                        <a href="https://wa.me/77781860510" class="w-12 h-12 rounded-full bg-white/5 flex items-center justify-center hover:bg-brand-gold hover:text-black transition"><i class="fab fa-whatsapp text-xl"></i></a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="border-t border-white/5 mt-16 pt-8 flex flex-col md:flex-row justify-between items-center text-xs text-gray-600 uppercase tracking-wider">
+                <p>&copy; 2026 SOLAR BEAM. All rights reserved.</p>
+                <a href="https://anukenn.vercel.app/" class="hover:text-brand-gold transition mt-4 md:mt-0">Разработчик сайта</a>
             </div>
         </div>
     </footer>
 
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script>
-        AOS.init({ duration: 1000, once: true });
+        // Инициализация анимаций
+        AOS.init({ once: true, offset: 50, duration: 800 });
 
+        // Прелоадер
+        window.addEventListener('load', () => {
+            const preloader = document.getElementById('preloader');
+            setTimeout(() => {
+                preloader.style.opacity = '0';
+                setTimeout(() => { preloader.style.display = 'none'; }, 700);
+            }, 1000);
+        });
+
+        // Меню
         function toggleMenu() {
-            document.getElementById('mobile-menu').classList.toggle('active');
+            document.getElementById('mobile-menu').classList.toggle('open');
         }
+
+        // Модальное окно
+        function openModal(id, name, price) {
+            document.getElementById('m-title').innerText = name;
+            document.getElementById('m-price').innerText = price;
+            document.getElementById('m-id').innerText = id; // Показываем номер рамки
+            
+            // Ссылка WhatsApp
+            const msg = `Здравствуйте! Меня интересует ${name} (${price}). Расскажите подробнее.`;
+            document.getElementById('m-btn').href = `https://wa.me/77781860510?text=${encodeURIComponent(msg)}`;
+            
+            document.getElementById('product-modal').classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal() {
+            document.getElementById('product-modal').classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+
+        // Смена фона шапки при скролле
+        window.addEventListener('scroll', () => {
+            const header = document.getElementById('navbar');
+            if (window.scrollY > 50) {
+                header.classList.add('py-2');
+            } else {
+                header.classList.remove('py-2');
+            }
+        });
     </script>
 </body>
 </html>
